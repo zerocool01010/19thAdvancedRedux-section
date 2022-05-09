@@ -10,11 +10,16 @@ const ProductItem = (props) => {
   //reducer hooks and methods
   const dispatch = useDispatch();
 
-  const { title, price, description } = props;
+  const { title, price, description, quantity } = props;
 
   const addItemHandler = () => {
     dispatch(
-      productActions.addItemToProductsArray({ title, quantity: 4, price, description})
+      productActions.addItemToProductsArray({
+        title,
+        price,
+        description,
+        quantity,
+      })
     );
   };
 

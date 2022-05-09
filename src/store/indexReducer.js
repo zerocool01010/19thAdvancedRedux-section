@@ -25,7 +25,7 @@ const productSlice = createSlice({
         state.productsArray = testArray
     },
     addItemToProductsArray(state, action) {
-      //por action.payload llega un objeto con 3 atrib: title, price, quantity y description
+      //por action.payload llega un objeto con 4 atrib: title, price, description y quantity
       console.log(action.payload);
       testArray = [...testArray, action.payload]
       console.log(testArray)

@@ -18,9 +18,10 @@ const Cart = (props) => {
     dispatch(productActions.getItems());
   }, [arrayOfItems]);
 
-  const mappedItems = arrayOfItems.map((index)=> {
-    return <CartItem
-    item={{ title: index.title, quantity: index.quantity, price: index.price, total: index.total }}
+  const mappedItems = arrayOfItems.map((index, i)=> {
+    return <CartItem 
+    key={i}
+    item={{title: index.title, quantity: index.quantity, price: index.price, total: index.total }}
   />
   })
 
