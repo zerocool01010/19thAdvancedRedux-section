@@ -1,35 +1,44 @@
-import { createStore } from 'redux'
-import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { configure } from '@testing-library/react';
+import { createStore } from "redux";
+import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { configure } from "@testing-library/react";
 
-const initialCartVisibState = [{visible: true}]
-/* const initialSomeState2 = [{some2: false}] */
+const initialCartVisibState = [{ visible: true }];
+const initialProductState = { productsArray: [] };
+let testArray = [{ title: "Oranges", quantity: 3, price: 6, total: 18}, 
+{ title: "Potatoes", quantity: 7, price: 3, total: 21 }];
 
 const cartVisibility = createSlice({
-    name: 'cartRed',
-    initialState: initialCartVisibState,
-    reducers: {
-        changeVisibility(state) {
-            state[0].visible = !(state[0].visible)
-        }
-    }
-})
+  name: "cartRed",
+  initialState: initialCartVisibState,
+  reducers: {
+    changeVisibility(state) {
+      state[0].visible = !state[0].visible;
+    },
+  },
+});
 
-/* const someSlice2 = createSlice({
-    name: 'someRed2',
-    initialState: initialSomeState2,
-    reducers: {
-        someMethod2(state) {
-            state.some2 = true
-        }
-    }
-}) */
+const productSlice = createSlice({
+  name: "prodRed",
+  initialState: initialProductState,
+  reducers: {
+    getItems(state){
+        state.productsArray = testArray
+    },
+    addItemToProductsArray(state, action) {
+      //por action.payload llega un objeto con 3 atrib: title, price, quantity y description
+      console.log(action.payload);
+      testArray = [...testArray, action.payload]
+      console.log(testArray)
+      state.productsArray = testArray
+    },
+  },
+});
 
 const store = configureStore({
-    reducer: { cartRed: cartVisibility.reducer/* , someRed2: someSlice2.reducer */ }
-})
+  reducer: { cartRed: cartVisibility.reducer, prodRed: productSlice.reducer },
+});
 
-export const cartActions = cartVisibility.actions
-/* export const someSlice2Actions = someSlice2.actions  */
+export const cartActions = cartVisibility.actions;
+export const productActions = productSlice.actions;
 
-export default store
+export default store;

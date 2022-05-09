@@ -1,15 +1,36 @@
+import React from "react";
+import { useEffect } from "react";
 import Card from '../UI/Card';
 import classes from './Cart.module.css';
 import CartItem from './CartItem';
 
+//redux toolkit imports
+import { useDispatch } from "react-redux";
+import { productActions } from "../../store/indexReducer";
+import { useSelector } from "react-redux";
+
 const Cart = (props) => {
+  //reducer hooks and methods
+  const dispatch = useDispatch();
+  const arrayOfItems = useSelector((state) => state.prodRed.productsArray);
+
+  useEffect(() => {
+    dispatch(productActions.getItems());
+  }, [arrayOfItems]);
+
+  const mappedItems = arrayOfItems.map((index)=> {
+    return <CartItem
+    item={{ title: index.title, quantity: index.quantity, price: index.price, total: index.total }}
+  />
+  })
+
+  console.log(mappedItems)
+
   return (
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
       <ul>
-        <CartItem
-          item={{ title: 'Test Item', quantity: 3, total: 18, price: 6 }}
-        />
+        {mappedItems}
       </ul>
     </Card>
   );
