@@ -2,34 +2,34 @@ import { createStore } from 'redux'
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 import { configure } from '@testing-library/react';
 
-const initialSomeState = [{some: true}]
-const initialSomeState2 = [{some2: false}]
+const initialCartVisibState = [{visible: true}]
+/* const initialSomeState2 = [{some2: false}] */
 
-const someSlice = createSlice({
-    name: 'someRed',
-    initialState: initialSomeState,
+const cartVisibility = createSlice({
+    name: 'cartRed',
+    initialState: initialCartVisibState,
     reducers: {
-        increment(state) {
-            state.some++
+        changeVisibility(state) {
+            state[0].visible = !(state[0].visible)
         }
     }
 })
 
-const someSlice2 = createSlice({
+/* const someSlice2 = createSlice({
     name: 'someRed2',
     initialState: initialSomeState2,
     reducers: {
-        increment(state) {
-            state.some2++
+        someMethod2(state) {
+            state.some2 = true
         }
     }
-})
+}) */
 
 const store = configureStore({
-    reducer: { someRed: someSlice.reducer, someRed2: someSlice2.reducer }
+    reducer: { cartRed: cartVisibility.reducer/* , someRed2: someSlice2.reducer */ }
 })
 
-export const someSliceActions = someSlice.actions
-export const someSlice2Actions = someSlice2.actions 
+export const cartActions = cartVisibility.actions
+/* export const someSlice2Actions = someSlice2.actions  */
 
 export default store
