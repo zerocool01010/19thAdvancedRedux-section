@@ -3,7 +3,7 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 import { configure } from "@testing-library/react";
 
 const initialCartVisibState = [{ visible: true }];
-const initialProductState = { productsArray: [], testArray: [
+const initialProductState = { productsArray: [], initItemsArray: [
     { title: "Oranges", quantity: 3, price: 6, total: 18 },
     { title: "Potatoes", quantity: 7, price: 3, total: 21 },
   ] };
@@ -23,28 +23,18 @@ const productSlice = createSlice({
   initialState: initialProductState,
   reducers: {
     getItems(state) {
-      state.productsArray = state.testArray;
+      state.productsArray = state.initItemsArray;
     },
     addItemToProductsArray(state, action) {
       //por action.payload llega un objeto con 4 atrib: title, price, description y quantity
-      let itemRepeats = false;
-      let index = 0
-      for (const obj of state.testArray) {
-          index++
-        if (action.payload.title === obj.title) {
-        const newItem = {...action.payload}
-        newItem.quantity = obj.quantity+action.payload.quantity
-        state.testArray = [...state.testArray, newItem]
-        console.log(state.testArray)
-        state.productsArray = state.testArray;
-        itemRepeats = true;
-        break;
-        }
-      }
-
-      if (!itemRepeats) {
-        state.testArray = [...state.testArray, action.payload];
-        state.productsArray = state.testArray;
+      const newItem = action.payload
+      const existingItem = state.initItemsArray.find((item) => item.title === newItem.title)
+      if (!existingItem) {
+          state.initItemsArray.push(newItem)
+          state.productsArray = state.initItemsArray
+      } else {
+          existingItem.quantity = existingItem.quantity + newItem.quantity
+          state.productsArray = state.initItemsArray
       }
     },
   },
