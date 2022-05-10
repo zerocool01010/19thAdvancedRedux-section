@@ -1,28 +1,18 @@
-import React, {useState} from 'react'
+/* import React, {useState} from 'react' */
 import classes from './CartItem.module.css';
 //redux toolkit imports
 import { useDispatch } from "react-redux";
-import { itemActions } from "../../store/indexReducer";
+import { productActions } from "../../store/indexReducer";
 
 const CartItem = (props) => {
   const { title, quantity, price, total = (price*quantity) } = props.item;
 
   //reducer hooks and methods
   const dispatch = useDispatch();
-  //normal hooks
-  const [finalQ, setFinalQ] = useState(quantity)
-  /* const [finalTotal, setFinalPrice] = useState(total) */
 
   const plusMinusHandler = (event) => {
     const mathSymb = Number(event.target.name)
-    /* dispatch(itemActions.plusMinusItem({mathSymb, title})) */
-    if (finalQ >= 1) {
-      setFinalQ(finalQ + mathSymb)
-    } else {
-      if (mathSymb === 1) {
-        setFinalQ(finalQ + mathSymb)
-      }
-    }
+    dispatch(productActions.plusMinusItem({mathSymb, title}))
   }
 
   return (
@@ -36,7 +26,7 @@ const CartItem = (props) => {
       </header>
       <div className={classes.details}>
         <div className={classes.quantity}>
-          x <span>{finalQ}</span>
+          x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
           <button name={(-1)} onClick={plusMinusHandler}>-</button>

@@ -35,29 +35,22 @@ const productSlice = createSlice({
           existingItem.quantity = existingItem.quantity + action.payload.quantity
           state.productsArray = state.initItemsArray
       }
-    },
+    }, 
+    plusMinusItem(state, action){
+        console.log(action.payload)
+        const existingItem = state.initItemsArray.find((item) => item.title === action.payload.title)
+        console.log(existingItem)
+        existingItem.quantity = existingItem.quantity + action.payload.mathSymb
+        state.productsArray = state.initItemsArray
+    }
   },
 });
 
-const cartItem = createSlice({
-    name: "itemRed",
-    initialState: initialProductState,
-    reducers: {
-        plusMinusItem(state, action){
-            const existingItem = state.initItemsArray.find((item) => item.title === action.payload.title)
-            console.log(existingItem)
-            existingItem.quantity = existingItem.quantity + action.payload.mathSymb
-            state.productsArray = state.initItemsArray
-        }
-    }
-})
-
 const store = configureStore({
-  reducer: { cartRed: cartVisibility.reducer, prodRed: productSlice.reducer, itemRed: cartItem.reducer },
+  reducer: { cartRed: cartVisibility.reducer, prodRed: productSlice.reducer },
 });
 
 export const cartActions = cartVisibility.actions;
 export const productActions = productSlice.actions;
-export const itemActions = cartItem.actions;
 
 export default store;
