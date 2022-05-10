@@ -27,24 +27,37 @@ const productSlice = createSlice({
     },
     addItemToProductsArray(state, action) {
       //por action.payload llega un objeto con 4 atrib: title, price, description y quantity
-      const newItem = action.payload
-      const existingItem = state.initItemsArray.find((item) => item.title === newItem.title)
+      const existingItem = state.initItemsArray.find((item) => item.title === action.payload.title)
       if (!existingItem) {
-          state.initItemsArray = [newItem, ...state.initItemsArray]
+          state.initItemsArray = [action.payload, ...state.initItemsArray] //con este metodo o el .push() funciona
           state.productsArray = state.initItemsArray
       } else {
-          existingItem.quantity = existingItem.quantity + newItem.quantity
+          existingItem.quantity = existingItem.quantity + action.payload.quantity
           state.productsArray = state.initItemsArray
       }
     },
   },
 });
 
+const cartItem = createSlice({
+    name: "itemRed",
+    initialState: initialProductState,
+    reducers: {
+        plusMinusItem(state, action){
+            const existingItem = state.initItemsArray.find((item) => item.title === action.payload.title)
+            console.log(existingItem)
+            existingItem.quantity = existingItem.quantity + action.payload.mathSymb
+            state.productsArray = state.initItemsArray
+        }
+    }
+})
+
 const store = configureStore({
-  reducer: { cartRed: cartVisibility.reducer, prodRed: productSlice.reducer },
+  reducer: { cartRed: cartVisibility.reducer, prodRed: productSlice.reducer, itemRed: cartItem.reducer },
 });
 
 export const cartActions = cartVisibility.actions;
 export const productActions = productSlice.actions;
+export const itemActions = cartItem.actions;
 
 export default store;

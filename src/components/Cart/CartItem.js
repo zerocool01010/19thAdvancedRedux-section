@@ -1,9 +1,29 @@
+import React, {useState} from 'react'
 import classes from './CartItem.module.css';
+//redux toolkit imports
+import { useDispatch } from "react-redux";
+import { itemActions } from "../../store/indexReducer";
 
 const CartItem = (props) => {
-  console.log(props.item)
-
   const { title, quantity, price, total = (price*quantity) } = props.item;
+
+  //reducer hooks and methods
+  const dispatch = useDispatch();
+  //normal hooks
+  const [finalQ, setFinalQ] = useState(quantity)
+  /* const [finalTotal, setFinalPrice] = useState(total) */
+
+  const plusMinusHandler = (event) => {
+    const mathSymb = Number(event.target.name)
+    /* dispatch(itemActions.plusMinusItem({mathSymb, title})) */
+    if (finalQ >= 1) {
+      setFinalQ(finalQ + mathSymb)
+    } else {
+      if (mathSymb === 1) {
+        setFinalQ(finalQ + mathSymb)
+      }
+    }
+  }
 
   return (
     <li className={classes.item}>
@@ -16,11 +36,11 @@ const CartItem = (props) => {
       </header>
       <div className={classes.details}>
         <div className={classes.quantity}>
-          x <span>{quantity}</span>
+          x <span>{finalQ}</span>
         </div>
         <div className={classes.actions}>
-          <button>-</button>
-          <button>+</button>
+          <button name={(-1)} onClick={plusMinusHandler}>-</button>
+          <button name={1} onClick={plusMinusHandler}>+</button>
         </div>
       </div>
     </li>
