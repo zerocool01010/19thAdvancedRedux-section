@@ -30,7 +30,7 @@ const productSlice = createSlice({
       const newItem = action.payload
       const existingItem = state.initItemsArray.find((item) => item.title === newItem.title)
       if (!existingItem) {
-          state.initItemsArray.push(newItem)
+          state.initItemsArray = [newItem, ...state.initItemsArray]
           state.productsArray = state.initItemsArray
       } else {
           existingItem.quantity = existingItem.quantity + newItem.quantity
