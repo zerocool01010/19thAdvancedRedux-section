@@ -4,9 +4,9 @@ import { configure } from "@testing-library/react";
 
 const initialCartVisibState = [{ visible: true }];
 const initialProductState = { productsArray: [], initItemsArray: [
-    { title: "Oranges", quantity: 3, price: 6, total: 18 },
-    { title: "Potatoes", quantity: 7, price: 3, total: 21 },
-  ] };
+    { title: "Oranges", quantity: 3, price: 6 },
+    { title: "Potatoes", quantity: 7, price: 3 },
+  ], shoppingCartItemsQuant: 2 };
 
 const cartVisibility = createSlice({
   name: "cartRed",
@@ -42,6 +42,9 @@ const productSlice = createSlice({
         console.log(existingItem)
         existingItem.quantity = existingItem.quantity + action.payload.mathSymb
         state.productsArray = state.initItemsArray
+    },
+    getLength(state){
+        state.shoppingCartItemsQuant = state.initItemsArray.length
     }
   },
 });

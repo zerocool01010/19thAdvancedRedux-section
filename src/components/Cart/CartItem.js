@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { productActions } from "../../store/indexReducer";
 
 const CartItem = (props) => {
-  const { title, quantity, price, total = (price*quantity) } = props.item;
+  const { title, quantity, price } = props.item;
 
   //reducer hooks and methods
   const dispatch = useDispatch();
@@ -14,13 +14,13 @@ const CartItem = (props) => {
     const mathSymb = Number(event.target.name)
     dispatch(productActions.plusMinusItem({mathSymb, title}))
   }
-
+  
   return (
     <li className={classes.item}>
       <header>
         <h3>{title}</h3>
         <div className={classes.price}>
-          ${total.toFixed(2)}{' '}
+          ${(price*quantity).toFixed(2)}{' '}
           <span className={classes.itemprice}>(${price.toFixed(2)}/item)</span>
         </div>
       </header>
